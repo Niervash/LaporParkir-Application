@@ -1,67 +1,79 @@
-const express = require('express')
-const server = express()
-const allRouter = require('./routes')
-// const cookieParser = require('cookie-parser')
-const session = require('express-session')
-const sequelizeStore = require('connect-session-sequelize')
-const cors = require('cors')
-const dotenv = require('dotenv')
-const cloudinary = require('cloudinary').v2
-const multer = require('multer')
-const { sequelize } = require('./models')
-const morgan = require('morgan')
-dotenv.config()
+const express = require('express');
+const server = express();
+const allRouter = require('./routes');
+const session = require('express-session');
+const sequelizeStore = require('connect-session-sequelize')(session.Store);
+const cors = require('cors');
+const dotenv = require('dotenv');
+const cloudinary = require('cloudinary').v2;
+const morgan = require('morgan');
+const { Sequelize } = require('sequelize'); // Pastikan Sequelize diimpor
+dotenv.config();
 
-const PORT = 3000
+const PORT = 3000;
 
-const sessionsStore = sequelizeStore(session.Store)
+// Ambil konfigurasi dari file config.js
+const config = require('./config/config')[process.env.NODE_ENV || 'development'];
 
-const store = new sessionsStore({
-    db: sequelize,
-    tableName: 'sessions'
-})
+// Inisialisasi Sequelize
+const sequelize = new Sequelize(config.database, config.username, config.password, {
+  host: config.host,
+  port: config.port,
+  dialect: 'mysql',
+});
 
+// Coba untuk melakukan koneksi
+sequelize.authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
+  });
 
+// Inisialisasi session store
+const store = new sequelizeStore({
+  db: sequelize,
+  tableName: 'sessions'
+});
+
+// Konfigurasi Cloudinary
 cloudinary.config({
-    cloud_name: process.env.CLOUD_NAME,
-    api_key: process.env.API_KEY,
-    api_secret: process.env.API_SECRET
-})
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET
+});
 
-
-server.use(morgan('tiny'))
+// Middleware
+server.use(morgan('tiny'));
 
 server.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    store: store,
-    saveUninitialized: true,
-    cookie: {
-        maxAge: 24 * 60 * 60 * 1000,
-        secure: 'auto'
-    }
-}))
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  store: store,
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 24 * 60 * 60 * 1000, // 1 hari
+    secure: 'auto' // Pastikan ini benar saat menggunakan HTTPS
+  }
+}));
 
-server.use(express.json())
+server.use(express.json());
 
 server.use(cors({
-    credentials: true,
-    origin: 'http://localhost:3000'
-}))
+  credentials: true,
+  origin: 'http://localhost:3000' // Sesuaikan dengan URL frontend Anda
+}));
 
+// Router
+server.use(allRouter);
 
+// Route untuk home
+server.get('/', (req, res) => {
+  res.send("<h1>Home</h1>");
+});
 
-
-// server.use(cookieParser())
-server.use(allRouter)
-server.get('/', (req, res )=>{
-    res.send("<h1>Home <h1>")
-})
-
-
-server.listen(PORT, ()=>{
-    console.log("server running on port" , PORT)
-})
-
-
-
+// Jalankan server
+server.listen(PORT, () => {
+  console.log("Server running on port", PORT);
+});
