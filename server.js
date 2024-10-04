@@ -10,7 +10,7 @@ const morgan = require('morgan');
 const { Sequelize } = require('sequelize'); // Pastikan Sequelize diimpor
 dotenv.config();
 
-const PORT = 3000;
+const PORT = process.env.DB_PORT;
 
 // Ambil konfigurasi dari file config.js
 const config = require('./config/config')[process.env.NODE_ENV || 'development'];

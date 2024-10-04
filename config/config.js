@@ -2,7 +2,7 @@ require('dotenv').config();
 
 module.exports = {
   development: { 
-    use_env_variable: false, // Atur ke false atau hapus jika tidak digunakan
+    use_env_variable: process.env.DB_URL, 
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
