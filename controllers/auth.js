@@ -42,13 +42,6 @@ module.exports = {
                 uploadStream.end(req.file.buffer);
             });
     
-            // Cek apakah email sudah terdaftar
-            const existingUser = await User.findOne({ email });
-            if (existingUser) {
-                return res.status(409).json({
-                    message: "Email sudah terdaftar"
-                });
-            }
     
             console.log("Upload successful:", result);
             await User.create({

@@ -59,6 +59,7 @@ server.use(session({
 }));
 
 server.use(express.json());
+server.use(express.urlencoded({ extended: true }))
 
 server.use(cors({
   credentials: true,
