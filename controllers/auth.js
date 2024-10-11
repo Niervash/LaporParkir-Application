@@ -7,42 +7,50 @@ const {User} = models
 module.exports = {
 
     
-    Register: async (req, res) =>{
-        const {nama, email, jenis_kelamin, username, password,  role} = req.body
-        const salt  = await bcrypt.genSalt();
-        const hashPassword = await bcrypt.hash(password, salt)
+    Register: async (req, res) => {
+        const { nama, email, jenis_kelamin, username, password, role } = req.body;
+    
+        // Cek apakah password ada
+        if (!password) {
+            return res.status(400).json({
+                message: "Password tidak boleh kosong"
+            });
+        }
+    
         try {
-
-            if(!req.file){
+            const salt = await bcrypt.genSalt();
+            const hashPassword = await bcrypt.hash(password, salt); // Pastikan password dan salt ada
+    
+            if (!req.file) {
                 return res.status(400).json({
                     message: "Foto Profil Anda Tidak Ditemukan"
-                })
+                });
             }
-
+    
             console.log("Upload to Cloudinary");
-            
-            const result = await new Promise((resolve, reject) =>{
+    
+            const result = await new Promise((resolve, reject) => {
                 const uploadStream = cloudinary.uploader.upload_stream({
-                    folder: 'foto profil', resource_type: 'auto'
+                    folder: 'foto profil',
+                    resource_type: 'auto'
                 },
-                (error, result) =>{
-                    if (error) return reject (error)
-                        resolve(result)
-                }
-            );
-
-            uploadStream.end(req.file.buffer)
-            })
-
+                (error, result) => {
+                    if (error) return reject(error);
+                    resolve(result);
+                });
+    
+                uploadStream.end(req.file.buffer);
+            });
+    
             // Cek apakah email sudah terdaftar
-             const existingUser = await User.findOne({ email });
+            const existingUser = await User.findOne({ email });
             if (existingUser) {
                 return res.status(409).json({
                     message: "Email sudah terdaftar"
                 });
             }
-
-            console.log("Upload successful:", result); 
+    
+            console.log("Upload successful:", result);
             await User.create({
                 nama: nama,
                 email: email,
@@ -51,22 +59,20 @@ module.exports = {
                 password: hashPassword,
                 foto_profil: result.secure_url,
                 role: role
-                
-            })
-
+            });
+    
             res.status(201).json({
                 message: "Berhasil Register",
-                gambarUrl: result.secure_url 
-            })
+                gambarUrl: result.secure_url
+            });
         } catch (error) {
-            console.error("Terjadi kesalahan saat register:", error); 
+            console.error("Terjadi kesalahan saat register:", error);
             res.status(500).json({
                 message: "Gagal Menambahkan User",
-                error: error.message 
+                error: error.message
             });
         }
     },
-
     Login: async (req, res) =>{
         try {
             const user = await User.findAll({

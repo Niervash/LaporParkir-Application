@@ -10,9 +10,9 @@ const {
     isME
 } = require ("../controllers/auth")
 
-
+const upload = require('../middleware/upload')
 router.get("/me", isME )
-router.post("/user", Register)
+router.post("/user", upload.single('foto_profil'), Register)
 router.post("/login", Login)
 router.delete("/logout", Logout)
 // router.get("/token", refreshToken)
