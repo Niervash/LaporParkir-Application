@@ -28,7 +28,10 @@ module.exports = {
       password: {
         type: Sequelize.STRING
       },
-      
+      foto_profil: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
       role:{
         type: DataTypes.ENUM,
         values: ['admin', 'user']

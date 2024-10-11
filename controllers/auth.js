@@ -1,4 +1,5 @@
 const models = require('../models')
+const cloudinary = require('cloudinary').v2
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const {User} = models
@@ -7,27 +8,62 @@ module.exports = {
 
     
     Register: async (req, res) =>{
-        const {nama, email, jenis_kelamin, username, password, role} = req.body
+        const {nama, email, jenis_kelamin, username, password,  role} = req.body
         const salt  = await bcrypt.genSalt();
         const hashPassword = await bcrypt.hash(password, salt)
         try {
+
+            if(!req.file){
+                return res.status(400).json({
+                    message: "Foto Profil Anda Tidak Ditemukan"
+                })
+            }
+
+            console.log("Upload to Cloudinary");
+            
+            const result = await new Promise((resolve, reject) =>{
+                const uploadStream = cloudinary.uploader.upload_stream({
+                    folder: 'foto profil', resource_type: 'auto'
+                },
+                (error, result) =>{
+                    if (error) return reject (error)
+                        resolve(result)
+                }
+            );
+
+            uploadStream.end(req.file.buffer)
+            })
+
+            // Cek apakah email sudah terdaftar
+             const existingUser = await User.findOne({ email });
+            if (existingUser) {
+                return res.status(409).json({
+                    message: "Email sudah terdaftar"
+                });
+            }
+
+            console.log("Upload successful:", result); 
             await User.create({
                 nama: nama,
                 email: email,
                 jenis_kelamin: jenis_kelamin,
                 username: username,
                 password: hashPassword,
+                foto_profil: result.secure_url,
                 role: role
                 
             })
 
             res.status(201).json({
-                message: "Berhasil Register"
+                message: "Berhasil Register",
+                gambarUrl: result.secure_url 
             })
         } catch (error) {
-            res.status(400).json({
-                message: error.message
-            })
+            console.error("Terjadi kesalahan saat register:", error); 
+            res.status(500).json({
+                message: "Gagal Menambahkan User",
+                error: error.message 
+            });
         }
     },
 
