@@ -67,12 +67,16 @@ module.exports = {
         }
     },
     Login: async (req, res) =>{
+        console.log("Received data:", req.body);
         try {
             const user = await User.findAll({
                 where:{
                     email: req.body.email
                 }
             })
+
+            console.log("User found:", user);
+            
             if (user.length === 0) {
                 return res.status(404).json({
                     message: "Email Anda belum terdaftar"
