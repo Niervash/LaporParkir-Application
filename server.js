@@ -63,7 +63,7 @@ server.use(express.urlencoded({ extended: true }))
 
 server.use(cors({
   credentials: true,
-  origin: 'http://localhost:3000' // Sesuaikan dengan URL frontend Anda
+  origin: '*' // Sesuaikan dengan URL frontend Anda
 }));
 
 // Router

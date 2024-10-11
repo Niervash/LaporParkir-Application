@@ -87,8 +87,8 @@ module.exports = {
                 req.session.userId = user[0].id; // Menyimpan ID pengguna
                 res.status(200).json({nama, email, username, role})
             } catch (error) {
-                res.status(404).json({
-                    message: "Email anda tidak ditemukan"
+                console.error("Error during login:", error); // Debugging
+                res.status(500).json({ message: "Terjadi kesalahan saat login"
                 })
             }
         
