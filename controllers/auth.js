@@ -68,6 +68,9 @@ module.exports = {
     },
     Login: async (req, res) =>{
         console.log("Received data:", req.body);
+        if (!req.body.email || !req.body.password) {
+            return res.status(400).json({ message: "Email dan password harus diisi." });
+        }
         try {
             const user = await User.findAll({
                 where:{
@@ -76,7 +79,7 @@ module.exports = {
             })
 
             console.log("User found:", user);
-            
+
             if (user.length === 0) {
                 return res.status(404).json({
                     message: "Email Anda belum terdaftar"
