@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const {User} = models
 
+
 module.exports = {
 
     
@@ -14,6 +15,26 @@ module.exports = {
         if (!password) {
             return res.status(400).json({
                 message: "Password tidak boleh kosong"
+            });
+        }
+
+        // Cek apakah email sudah terdaftar
+        const existingEmail = await User.findOne({ where: { email } });
+
+        // Cek apakah username sudah terdaftar
+        const existingUsername = await User.findOne({ where: { username } });
+
+        if (existingEmail && existingUsername) {
+            return res.status(400).json({
+                message: "Email dan Username sudah terdaftar"
+            });
+        } else if (existingEmail) {
+            return res.status(400).json({
+                message: "Email sudah terdaftar"
+            });
+        } else if (existingUsername) {
+            return res.status(400).json({
+                message: "Username sudah terdaftar"
             });
         }
     
