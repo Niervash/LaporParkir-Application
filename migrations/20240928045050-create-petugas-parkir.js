@@ -48,8 +48,8 @@ module.exports = {
         type: Sequelize.STRING
       },
       status_post: {
-        type: Sequelize.ENUM,
-        values: ["Approve", "Pending", "Reject"],
+        type: DataTypes.ENUM ("Approve", "Pending", "Reject"),
+        defaultValue: 'Pending',
         allowNull: false
       },
       createdAt: {

@@ -54,8 +54,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     bukti: DataTypes.STRING,
     status_post: {
-      type: DataTypes.ENUM,
-      values: ["Approve", "Pending", "Reject"],
+      type: DataTypes.ENUM ("Approve", "Pending", "Reject"),
+      defaultValue: 'Pending',
       allowNull: false
     }
   }, {
