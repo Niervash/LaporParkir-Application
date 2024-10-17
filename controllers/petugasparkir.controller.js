@@ -59,7 +59,8 @@ module.exports = {
                 hari: hari,
                 status: status,
                 bukti: result.secure_url,
-                idPengguna: userId
+                idPengguna: userId,
+                status_post: 'Pending'
             });
     
             res.status(201).json({
@@ -77,6 +78,28 @@ module.exports = {
         }
 
         
+    },
+
+    checkPetugasParkirStatus: async (req, res) => {
+        const {id} = req.params
+        const data = await petugas_parkir.findByPk(id)
+
+        if (!data) {
+            return res.status(404).json({
+                message: "Data Petugas Tidak di Temukan"
+            })
+        }
+        res.status(200).json({
+                lokasi: data.lokasi,
+                tanggaldanwaktu: data.tanggaldanwaktu,
+                latitude: data.latitide,
+                longitude: data.longitude,
+                identitas_petugas: identitas_petugas,
+                bukti: data.bukti,
+                message : data.status_post === 'Pending' ? 'Menunggu Persetujuan Admin.' : `Status: ${data.status_post}`
+
+        })
+
     },
 
     updatePetugas: async (req,res) =>{

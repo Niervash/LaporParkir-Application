@@ -52,7 +52,12 @@ module.exports = (sequelize, DataTypes) => {
       values: ["Liar", "Tidak Liar"],
       allowNull: false
     },
-    bukti: DataTypes.STRING
+    bukti: DataTypes.STRING,
+    status_post: {
+      type: DataTypes.ENUM,
+      values: ["Approve", "Pending", "Reject"],
+      allowNull: false
+    }
   }, {
     sequelize,
     modelName: 'petugas_parkir',

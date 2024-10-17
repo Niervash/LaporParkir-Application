@@ -35,11 +35,11 @@ module.exports = {
       },
       lokasi: {
         type: Sequelize.ENUM,
-        values: ["Pusat Perbelanjaan", "Gedung Perkantoran", "Rumah Sakit", "Universitas", "Tempat Umum"]
+        values: ["Jl. H. Agus Salim", "Jl. Imam Bonjol", "Jl. Ir. Soekrano", "Jl. Jendral Sudirman", "jl. Merpati", "Jl. Nuri", "Jl. Sisingamangaraja", "Kantor Wali Kota"]
       },
       status:{
         type: Sequelize.ENUM,
-        values: ["Jl. H. Agus Salim", "Jl. Imam Bonjol", "Jl. Ir. Soekrano", "Jl. Jendral Sudirman", "jl. Merpati", "Jl. Nuri", "Jl. Sisingamangaraja", "Kantor Wali Kota"]
+        values: ["Liar", "Tidak Liar"]
       },
       deskripsi_masalah: {
         type: Sequelize.STRING
@@ -49,6 +49,11 @@ module.exports = {
       },
       bukti:{
         type: Sequelize.STRING
+      },
+      status_post: {
+        type: Sequelize.ENUM,
+        values: ["Approve", "Pending", "Reject"],
+        allowNull: false
       },
       createdAt: {
         allowNull: false,

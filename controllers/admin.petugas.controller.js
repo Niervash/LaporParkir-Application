@@ -9,7 +9,7 @@ module.exports = {
 
     getAllPetugas: async (req,res) =>{
         const petugas = await petugas_parkir.findAll({
-            attributes: ["lokasi", "tanggaldanwaktu","latitude", "longitude", "identitas_petugas", "hari", "status", "bukti"]
+            attributes: ["lokasi", "tanggaldanwaktu","latitude", "longitude", "identitas_petugas", "hari", "status", "bukti", "status_post"]
         })
 
         res.json({

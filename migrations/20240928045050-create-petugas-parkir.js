@@ -47,6 +47,11 @@ module.exports = {
       bukti: {
         type: Sequelize.STRING
       },
+      status_post: {
+        type: Sequelize.ENUM,
+        values: ["Approve", "Pending", "Reject"],
+        allowNull: false
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

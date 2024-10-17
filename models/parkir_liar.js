@@ -40,12 +40,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     lokasi: {
       type:DataTypes.ENUM,
-      values: ["Pusat Perbelanjaan", "Gedung Perkantoran", "Rumah Sakit", "Universitas", "Tempat Umum"],
+      values: ["Jl. H. Agus Salim", "Jl. Imam Bonjol", "Jl. Ir. Soekrano", "Jl. Jendral Sudirman", "jl. Merpati", "Jl. Nuri", "Jl. Sisingamangaraja", "Kantor Wali Kota"],
       allowNull: false
     },
     status:{
       type: DataTypes.ENUM,
-      values: ["Jl. H. Agus Salim", "Jl. Imam Bonjol", "Jl. Ir. Soekrano", "Jl. Jendral Sudirman", "jl. Merpati", "Jl. Nuri", "Jl. Sisingamangaraja", "Kantor Wali Kota"],
+      values: ["Liar", "Tidak Liar"],
       allowNull: false
     },
     deskripsi_masalah: {
@@ -58,6 +58,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     bukti:{
       type: DataTypes.STRING,
+      allowNull: false
+    },
+    status_post: {
+      type: DataTypes.ENUM,
+      values: ["Approve", "Pending", "Reject"],
       allowNull: false
     }
   }, {
