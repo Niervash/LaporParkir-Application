@@ -107,7 +107,7 @@ module.exports = {
         }
 
         const user = await User.findOne({
-            attributes:['nama', "email", "role"],
+            attributes:['nama', "email", "jenis_kelamin", "username", "foto_profil", "role",],
             where:{
                 id: req.session.userId
             }
