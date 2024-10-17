@@ -25,5 +25,5 @@ router.delete("/admin-petugas/:id", verifyUser, upload.single('bukti'), isAdmin,
 
 // admin approval
 const {approvePetugasParkir} = require('../middleware/adminApproval')
-router.post("/admin-petugas", verifyUser,  isAdmin, approvePetugasParkir);
+router.post("/admin-petugas/:id", verifyUser,  isAdmin, approvePetugasParkir);
 module.exports = router
