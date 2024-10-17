@@ -15,31 +15,31 @@ module.exports = {
             })
         }
     
-        if (action === 'approve') {
+        if (action === 'Approve') {
     
             data.status = 'Approved'
             await data.save()
             return res.status(200).json({
                 message: "Data Petugas Parkir di Setujui",
-                status: data.status
+                status_post: data.status_post
             })
             
-        }else if (action === 'reject'){
+        }else if (action === 'Reject'){
             data.status = 'Rejected'
             await data.save()
             return res.status(200).json({
                 message: "Data Petugas Parkir di Tolak",
-                status: data.status
+                status_post: data.status_post
             })
         } else {
             return res.status(404).json({
-                message: 'Action harus berupa "approve" atau "reject"'
+                message: 'Action harus berupa "Approve" atau "Reject"'
             })
             
         }
         await data.save()
         res.status(200).json({
-            message: "Data Petugas Parkir telag $ {data.status_post"
+            message: "Data Petugas Parkir telah $ {data.status_post"
         })
     
         
