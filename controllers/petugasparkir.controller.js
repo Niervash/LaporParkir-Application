@@ -94,7 +94,7 @@ module.exports = {
                 tanggaldanwaktu: data.tanggaldanwaktu,
                 latitude: data.latitide,
                 longitude: data.longitude,
-                identitas_petugas: identitas_petugas,
+                identitas_petugas: data.identitas_petugas,
                 bukti: data.bukti,
                 message : data.status_post === 'Pending' ? 'Menunggu Persetujuan Admin.' : `Status: ${data.status_post}`
 
