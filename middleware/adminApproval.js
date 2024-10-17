@@ -17,7 +17,7 @@ module.exports = {
     
         if (action === 'Approve') {
     
-            data.status = 'Approved'
+            data.status_post = 'Approved'
             await data.save()
             return res.status(200).json({
                 message: "Data Petugas Parkir di Setujui",
@@ -25,7 +25,7 @@ module.exports = {
             })
             
         }else if (action === 'Reject'){
-            data.status = 'Rejected'
+            data.status_post = 'Rejected'
             await data.save()
             return res.status(200).json({
                 message: "Data Petugas Parkir di Tolak",
