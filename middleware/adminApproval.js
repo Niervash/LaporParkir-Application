@@ -15,7 +15,7 @@ module.exports = {
             })
         }
     
-        if (action === 'Approved') {
+        if (action === 'Approve') {
     
             data.status_post = 'Approved'
             await data.save()
@@ -24,7 +24,7 @@ module.exports = {
                 status_post: data.status_post
             })
             
-        }else if (action === 'Rejected'){
+        }else if (action === 'Reject'){
             data.status_post = 'Rejected'
             await data.save()
             return res.status(200).json({
@@ -32,15 +32,14 @@ module.exports = {
                 status_post: data.status_post
             })
         } else {
-            return res.status(400).json({
-                message: 'Action harus berupa "approve" atau "reject"'
+            return res.status(404).json({
+                message: 'Action harus berupa "Approve" atau "Reject"'
             })
             
         }
-
         await data.save()
         res.status(200).json({
-            message: 'Data Petugas parkir telah ${data.status_post}'
+            message: "Data Petugas Parkir telah $ {data.status_post"
         })
     
         
