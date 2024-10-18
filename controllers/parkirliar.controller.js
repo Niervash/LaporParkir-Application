@@ -59,7 +59,7 @@ module.exports ={
                 hari: hari,
                 bukti: result.secure_url,
                 idUser: userId,
-                status: 'Pending'
+                status_post: 'Pending'
             });
     
             res.status(201).json({
