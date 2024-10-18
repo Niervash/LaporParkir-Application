@@ -22,8 +22,8 @@ router.patch("/admin-parkir/:id", verifyUser, upload.single('bukti'), isAdmin, u
 router.delete("/admin-parkir/:id", verifyUser, upload.single('bukti'), isAdmin, deleteParkir)
 
 // admin approval
-const {approvePetugasParkir} = require('../middleware/adminApproval')
-router.post("/admin-parkir/:id", verifyUser, isAdmin, approvePetugasParkir, addLaporan);
+const {approveParkirLiar} = require('../middleware/adminApproval')
+router.post("/admin-parkir/:id", verifyUser, isAdmin, approveParkirLiar);
 
 
 module.exports = router

@@ -19,5 +19,8 @@ router.patch("/parkir/:id", verifyUser, upload.single('bukti'), updateLaporan )
 
 // router.get("/token", refreshToken)
 
+const {checkParkirStatus} = require('../controllers/parkirliar.controller')
+router.get("/parkir/:id", verifyUser, checkParkirStatus)
+
 
 module.exports = router

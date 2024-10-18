@@ -58,7 +58,8 @@ module.exports ={
                 deskripsi_masalah: deskripsi_masalah,
                 hari: hari,
                 bukti: result.secure_url,
-                idUser: userId
+                idUser: userId,
+                status: 'Pending'
             });
     
             res.status(201).json({
@@ -73,6 +74,30 @@ module.exports ={
                 error: error.message 
             });
         }
+    },
+
+    checkParkirStatus: async (req, res) => {
+        const {id} = req.params
+        const data = await parkir_liar.findByPk(id)
+
+        if (!data) {
+            return res.status(404).json({
+                message: "Data Parkir Tidak di Temukan"
+            })
+        }
+        res.status(200).json({
+                jenis_kendaraan: data.jenis_kendaraan,
+                tanggaldanwaktu: data.tanggaldanwaktu,
+                latitude: data.latitude,
+                longitude: data.longitude,
+                lokasi: data.lokasi,
+                hari: data.hari,
+                bukti: data.bukti,
+                status_post: data.status_post,
+                message: data.status_post === 'Pending' ? 'Menunggu persetujuan admin.' : `Status: ${data.status_post}`
+
+        })
+
     },
 
 
