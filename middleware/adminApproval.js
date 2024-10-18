@@ -1,4 +1,6 @@
+const { where } = require('sequelize');
 const {petugas_parkir} = require('../models');
+const cloudinary = require('cloudinary').v2
 
 
 module.exports = {
@@ -25,8 +27,15 @@ module.exports = {
             })
             
         }else if (action === 'Reject'){
-            data.status_post = 'Rejecte'
-            await data.save()
+            data.status_post = 'Reject'
+            if (data.bukti) {
+                const publicId = data.bukti.split('/').slice(-2).join('/').split('.')[0]
+
+                await cloudinary.uploader.destroy(publicId)
+            }
+
+
+            await petugas_parkir.destroy({where: {id: data.id}})
             return res.status(200).json({
                 message: "Data Petugas Parkir di Tolak",
                 status_post: data.status_post
