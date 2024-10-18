@@ -14,10 +14,10 @@ const {verifyUser} = require('../middleware/auth.router')
 const upload = require('../middleware/upload')
 const {checkPetugasParkirStatus} = require('../controllers/petugasparkir.controller')
 
-router.get("/petugas", verifyUser, getAllPetugas)
-router.get("/petugas/status/:id", verifyUser, checkPetugasParkirStatus)
-router.post("/petugas", verifyUser, upload.single('bukti'), addPetugas);
-router.patch("/petugas/:id", verifyUser, upload.single('bukti'), updatePetugas )
+router.get("/petugas",  getAllPetugas)
+router.get("/petugas/status/:id",  checkPetugasParkirStatus)
+router.post("/petugas",  upload.single('bukti'), addPetugas);
+router.patch("/petugas/:id",  upload.single('bukti'), updatePetugas )
 
 
 
