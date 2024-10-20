@@ -62,23 +62,12 @@ server.use(express.json());
 server.use(express.urlencoded({ extended: true }))
 
 
-const allowedOrigins = [
-  'http://localhost:5173', // Untuk pengembangan lokal
-  'https://laporparkir-application.onrender.com' // Domain produksi
-];
-
-// Konfigurasi CORS
 server.use(cors({
-  origin: allowedOrigins,
-  credentials: true // Mengizinkan pengiriman cookie
+  origin: ['http://localhost:5173', 'https://laporparkir-application.onrender.com'],
+  credentials: true,
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+  allowedHeaders: 'Content-Type, Authorization'
 }));
-
-server.options('*', (req, res) => {
-  res.header('Access-Control-Allow-Origin', allowedOrigins);
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.sendStatus(200); // Mengirimkan status 200 OK
-});
 
 // Router
 server.use(allRouter);

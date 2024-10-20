@@ -87,42 +87,36 @@ module.exports = {
             });
         }
     },
-    Login: async (req, res) =>{
+    Login: async (req, res) => {
         console.log("Received data:", req.body);
         if (!req.body.email || !req.body.password) {
             return res.status(400).json({ message: "Email dan password harus diisi." });
         }
         try {
             const user = await User.findAll({
-                where:{
-                    email: req.body.email
-                }
-            })
-
+                where: { email: req.body.email }
+            });
+    
             console.log("User found:", user);
-
+    
             if (user.length === 0) {
-                return res.status(404).json({
-                    message: "Email Anda belum terdaftar"
-                });
+                return res.status(404).json({ message: "Email Anda belum terdaftar" });
             }
-            const match = await bcrypt.compare(req.body.password, user[0].password)
-            if(!match) return res.status(400).json({message:"Password anda tidak sesuai"})
-                const id = user[0].id
-                const nama = user[0].nama
-                const email = user[0].email
-                const jenis_kelamin = user[0].jenis_kelamin
-                const username = user[0].username
-                const role = user[0].role
-                const foto_profil = user[0].foto_profil
-                req.session.userId = user[0].id; // Menyimpan ID pengguna
-                res.status(200).json({id,nama, email, jenis_kelamin, username, role, foto_profil})
-            } catch (error) {
-                console.error("Error during login:", error); // Debugging
-                res.status(500).json({ message: "Terjadi kesalahan saat login"
-                })
+    
+            const match = await bcrypt.compare(req.body.password, user[0].password);
+            if (!match) {
+                console.log("Password mismatch for user:", req.body.email); // Log password mismatch
+                return res.status(400).json({ message: "Password anda tidak sesuai" });
             }
-        
+    
+            // Mengambil data pengguna
+            const { id, nama, email, jenis_kelamin, username, role, foto_profil } = user[0];
+            req.session.userId = id; // Menyimpan ID pengguna
+            res.status(200).json({ id, nama, email, jenis_kelamin, username, role, foto_profil });
+        } catch (error) {
+            console.error("Error during login:", error);
+            res.status(500).json({ message: "Terjadi kesalahan saat login" });
+        }
     },
 
     isME: async(req, res)=>{
