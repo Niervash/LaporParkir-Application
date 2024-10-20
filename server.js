@@ -54,7 +54,8 @@ server.use(session({
   saveUninitialized: true,
   cookie: {
     maxAge: 24 * 60 * 60 * 1000, // 1 hari
-    secure: 'auto' // Pastikan ini benar saat menggunakan HTTPS
+    secure: false, // Pastikan ini benar saat menggunakan HTTPS
+    sameSite: 'none'
   }
 }));
 
