@@ -69,19 +69,16 @@ const allowedOrigins = [
 
 // Konfigurasi CORS
 server.use(cors({
-  origin: (origin, callback) => {
-      if (!origin) return callback(null, true);
-      
-      if (allowedOrigins.indexOf(origin) === -1) {
-          const msg = 'Origin not allowed: ' + origin;
-          console.warn(msg); // Log untuk memeriksa asal yang tidak diizinkan
-          return callback(new Error(msg), false);
-      }
-      return callback(null, true);
-  },
-  credentials: true // Mengizinkan pengiriman cookie dan informasi otentikasi
+  origin: allowedOrigins,
+  credentials: true // Mengizinkan pengiriman cookie
 }));
-server.options('*', cors());
+
+server.options('*', (req, res) => {
+  res.header('Access-Control-Allow-Origin', allowedOrigins);
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.sendStatus(200); // Mengirimkan status 200 OK
+});
 
 // Router
 server.use(allRouter);
