@@ -63,15 +63,24 @@ server.use(express.urlencoded({ extended: true }))
 
 
 const allowedOrigins = [
-  'http://localhost:5173', // Ganti dengan domain frontend Anda
+  'http://localhost:5173', // Untuk pengembangan lokal
   'https://laporparkir-application.onrender.com' // Domain produksi
 ];
 
+// Konfigurasi CORS
 server.use(cors({
-  credentials: true,
-  origin: allowedOrigins 
+  origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      
+      if (allowedOrigins.indexOf(origin) === -1) {
+          const msg = 'Origin not allowed: ' + origin;
+          console.warn(msg); // Log untuk memeriksa asal yang tidak diizinkan
+          return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+  },
+  credentials: true // Mengizinkan pengiriman cookie dan informasi otentikasi
 }));
-
 server.options('*', cors());
 
 // Router
