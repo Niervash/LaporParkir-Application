@@ -68,8 +68,8 @@ const allowedOrigins = [
 ];
 
 server.use(cors({
-  credentials: allowedOrigins,
-  origin: 'http://localhost:5173/' 
+  credentials: true,
+  origin: allowedOrigins 
 }));
 
 server.options('*', cors());
