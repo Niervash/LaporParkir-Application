@@ -61,10 +61,18 @@ server.use(session({
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }))
 
+
+const allowedOrigins = [
+  'http://localhost:5173', // Ganti dengan domain frontend Anda
+  'https://laporparkir-application.onrender.com' // Domain produksi
+];
+
 server.use(cors({
-  credentials: true,
+  credentials: allowedOrigins,
   origin: 'http://localhost:5173/' 
 }));
+
+server.options('*', cors());
 
 // Router
 server.use(allRouter);
