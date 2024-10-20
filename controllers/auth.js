@@ -108,12 +108,15 @@ module.exports = {
             }
             const match = await bcrypt.compare(req.body.password, user[0].password)
             if(!match) return res.status(400).json({message:"Password anda tidak sesuai"})
+                const id = user[0].id
                 const nama = user[0].nama
                 const email = user[0].email
+                const jenis_kelamin = user[0].jenis_kelamin
                 const username = user[0].username
                 const role = user[0].role
+                const foto_profil = user[0].foto_profil
                 req.session.userId = user[0].id; // Menyimpan ID pengguna
-                res.status(200).json({nama, email, username, role})
+                res.status(200).json({id,nama, email, jenis_kelamin, username, role, foto_profil})
             } catch (error) {
                 console.error("Error during login:", error); // Debugging
                 res.status(500).json({ message: "Terjadi kesalahan saat login"
