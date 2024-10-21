@@ -8,14 +8,28 @@ const {petugas_parkir} = model
 module.exports = {
 
     getAllPetugas: async (req,res) =>{
-        const petugas = await petugas_parkir.findAll({
-            attributes: ["lokasi", "tanggaldanwaktu","latitude", "longitude", "identitas_petugas", "hari", "status", "bukti"]
-        })
+        try {
+            const userId = req.session.userId; // Ambil ID pengguna dari session
+    
+            // Cek apakah userId ada di session
+            if (!userId) {
+                return res.status(401).json({ message: "User not logged in" });
+            }
+    
+            const petugas = await petugas_parkir.findAll({
+                where: { idPengguna: userId }, // Filter berdasarkan idPengguna
+                attributes: ["lokasi", "tanggaldanwaktu", "latitude", "longitude", "identitas_petugas", "hari", "status", "bukti"]
+            });
+    
+            res.json({
+                message: "Sukses Mengambil Data Petugas",
+                data: petugas
+            });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: "Gagal mengambil data petugas", error: error.message });
+        }
 
-        res.json({
-            message: "Sukses Mengambil Data Petugas",
-            data: petugas
-        })
 
     },
 
