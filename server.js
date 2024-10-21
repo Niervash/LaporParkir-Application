@@ -66,8 +66,6 @@ server.use(express.urlencoded({ extended: true }))
 server.use(cors({
   origin: ['http://localhost:5173', 'https://laporparkir-application.onrender.com'],
   credentials: true,
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-  allowedHeaders: 'Content-Type, Authorization'
 }));
 
 // Router
