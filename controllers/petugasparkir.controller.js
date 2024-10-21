@@ -8,39 +8,21 @@ const {petugas_parkir} = model
 module.exports = {
 
     getAllPetugas: async (req,res) =>{
-        try {
-            const userId = req.session.userId; // Ambil ID pengguna dari session
-    
-            // Cek apakah userId ada di session
-            if (!userId) {
-                return res.status(401).json({ message: "User not logged in" });
-            }
-    
-            const petugas = await petugas_parkir.findAll({
-                where: { idPengguna: userId }, // Filter berdasarkan idPengguna
-                attributes: ["id","lokasi", "tanggaldanwaktu", "latitude", "longitude", "identitas_petugas", "hari", "status", "bukti"]
-            });
-    
-            res.json({
-                message: "Sukses Mengambil Data Petugas",
-                data: petugas
-            });
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({ message: "Gagal mengambil data petugas", error: error.message });
-        }
+        const laporan = await petugas_parkir.findAll({
+            attributes: ["id","jenis_kendaraan", "tanggaldanwaktu", "latitude", "longitude", "lokasi", "deskripsi_masalah","hari","bukti"],
+            
+        })
+        res.json({
+            message: "Sukses Mengambil Data Laporan",
+            data: laporan
+        })
 
 
     },
 
     getPetugasById: async (req, res) => {
         try {
-            const userId = req.session.userId; // Ambil ID pengguna dari session
-    
-            // Cek apakah userId ada di session
-            if (!userId) {
-                return res.status(401).json({ message: "User not logged in" });
-            }
+           
     
             const petugasId = req.params.id; // Ambil ID petugas dari parameter URL
     
@@ -48,7 +30,6 @@ module.exports = {
             const petugas = await petugas_parkir.findOne({
                 where: {
                     id: petugasId,
-                    idPengguna: userId // Pastikan ID pengguna sama
                 },
                 attributes: ["id", "lokasi", "tanggaldanwaktu", "latitude", "longitude", "identitas_petugas", "hari", "status", "bukti"]
             });
