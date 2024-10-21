@@ -16,7 +16,7 @@ module.exports ={
     
             const petugas = await petugas_parkir.findAll({
                 where: { idPengguna: userId }, // Filter berdasarkan idPengguna
-                attributes: ["lokasi", "tanggaldanwaktu", "latitude", "longitude", "identitas_petugas", "hari", "status", "bukti"]
+                attributes: ["id","lokasi", "tanggaldanwaktu", "latitude", "longitude", "identitas_petugas", "hari", "status", "bukti"]
             });
     
             res.json({
@@ -28,6 +28,40 @@ module.exports ={
             res.status(500).json({ message: "Gagal mengambil data petugas", error: error.message });
         }
 
+    },
+
+    getParkirById: async (req, res) => {
+        try {
+            const userId = req.session.userId; // Ambil ID pengguna dari session
+    
+            // Cek apakah userId ada di session
+            if (!userId) {
+                return res.status(401).json({ message: "User not logged in" });
+            }
+    
+            const petugasId = req.params.id; // Ambil ID petugas dari parameter URL
+    
+            // Mencari petugas berdasarkan ID dan ID pengguna
+            const petugas = await petugas_parkir.findOne({
+                where: {
+                    id: petugasId,
+                    idPengguna: userId // Pastikan ID pengguna sama
+                },
+                attributes: ["id", "lokasi", "tanggaldanwaktu", "latitude", "longitude", "identitas_petugas", "hari", "status", "bukti"]
+            });
+    
+            if (!petugas) {
+                return res.status(404).json({ message: "Data Petugas Tidak di Temukan" });
+            }
+    
+            res.json({
+                message: "Sukses Mengambil Data Petugas",
+                data: petugas
+            });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: "Gagal mengambil data petugas", error: error.message });
+        }
     },
 
 

@@ -5,6 +5,7 @@ const router = express.Router()
 
 const {
     getAllLaporan,
+    getParkirById,
     addLaporan,
     updateLaporan,
 
@@ -14,6 +15,7 @@ const {
 const {verifyUser, isUser} = require('../middleware/auth.router')
 const upload = require('../middleware/upload')
 router.get("/parkir", verifyUser, isUser, getAllLaporan)
+router.get("/parkir", verifyUser, isUser, getParkirById)
 router.post("/parkir",  verifyUser, isUser,  upload.single('bukti'), addLaporan);
 router.patch("/parkir/:id",verifyUser, isUser, upload.single('bukti'), updateLaporan )
 
