@@ -14,9 +14,9 @@ const {
 
 const {verifyUser, isAdmin} = require('../middleware/auth.router')
 
-router.get("/admin", verifyUser, isAdmin, getAllUser)
-router.patch("/admin/:id", verifyUser,isAdmin, updateUser )
-router.delete("/admin/:id", verifyUser, isAdmin, deleteUser )
+router.get("/admin", getAllUser)
+router.patch("/admin/:id",  updateUser )
+router.delete("/admin/:id",  deleteUser )
 // router.get("/token", refreshToken)
 
 

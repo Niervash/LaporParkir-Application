@@ -15,15 +15,15 @@ const {
 const {verifyUser, isAdmin} = require('../middleware/auth.router')
 const upload = require('../middleware/upload')
 
-router.get("/admin-parkir",  verifyUser, isAdmin, getAllLaporan)
-router.get("/admin-parkir/:id", verifyUser, isAdmin, getLaporanById)
-router.post("/admin-parkir",  verifyUser, isAdmin, upload.single('bukti'),  addLaporan);
-router.patch("/admin-parkir/:id", verifyUser, isAdmin, upload.single('bukti'), updateLaporan)
-router.delete("/admin-parkir/:id", verifyUser, isAdmin, upload.single('bukti'),  deleteParkir)
+router.get("/admin-parkir",   getAllLaporan)
+router.get("/admin-parkir/:id", getLaporanById)
+router.post("/admin-parkir",  upload.single('bukti'),  addLaporan);
+router.patch("/admin-parkir/:id",  upload.single('bukti'), updateLaporan)
+router.delete("/admin-parkir/:id",  upload.single('bukti'),  deleteParkir)
 
 // admin approval
 const {approveParkirLiar} = require('../middleware/adminApproval')
-router.post("/admin-parkir/:id", verifyUser, isAdmin, approveParkirLiar);
+router.post("/admin-parkir/:id",  approveParkirLiar);
 
 
 module.exports = router
