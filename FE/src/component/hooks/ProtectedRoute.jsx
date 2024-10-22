@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom";
 
 export const ProtectedRoute = () => {
   const ProtectedRoute = ({ children }) => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("user");
 
     if (!token) {
       // If not authenticated, redirect to login

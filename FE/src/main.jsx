@@ -35,11 +35,19 @@ const router = createBrowserRouter([
   // User Dashboard
   {
     path: "/user-dashboard",
-    element: <DashboardPelaporPage />,
+    element: (
+      <ProtectedRoute allowedRoles={["user"]}>
+        <DashboardPelaporPage />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/user-dashboard/home",
-    element: <HomePelaporPage />,
+    element: (
+      <ProtectedRoute allowedRoles={["user"]}>
+        <HomePelaporPage />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/user-dashboard/parkir-liar",
@@ -47,11 +55,19 @@ const router = createBrowserRouter([
   },
   {
     path: "/user-dashboard/petugas-liar",
-    element: <PetugasLiarpage />,
+    element: (
+      <ProtectedRoute allowedRoles={["user"]}>
+        <PetugasLiarpage />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/user-dashboard/edit-profile",
-    element: <EditProfileUser />,
+    element: (
+      <ProtectedRoute allowedRoles={["user"]}>
+        <EditProfileUser />
+      </ProtectedRoute>
+    ),
   },
   // Admin Dashboard
   // {

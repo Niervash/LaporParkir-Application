@@ -1,7 +1,50 @@
+import { useEffect, useState } from "react";
 import React from "react";
 import BerandaMaps from "../../../Fragment/maps/BerandaMaps";
 
 export const About = () => {
+  const [data, setData] = useState({
+    formattedPetugasData: [],
+    formattedParkirData: [],
+  });
+  useEffect(() => {
+    const fetchDataStats = async () => {
+      try {
+        const response = await fetch(
+          `https://laporparkir-application.onrender.com/dashboard`
+        );
+        const result = await response.json();
+        console.log(result); // Log untuk memeriksa hasil
+        if (result) {
+          setData(result); // Set data dari API
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchDataStats();
+  }, []); // Hanya dipanggil sekali saat komponen dimount
+
+  const positions = [
+    ...data.formattedPetugasData.map((item) => [
+      parseFloat(item.latitude),
+      parseFloat(item.longitude),
+    ]),
+    ...data.formattedParkirData.map((item) => [
+      parseFloat(item.latitude),
+      parseFloat(item.longitude),
+    ]),
+  ];
+  // Mengatur posisi center berdasarkan data lat long pertama
+  const defaultCenter =
+    positions.length > 0 ? positions[0] : [-0.94975, 119.897444]; // Jika ada data, ambil indeks pertama, jika tidak pakai default
+
+  const handleMarkerClick = (position) => {
+    console.log("Marker clicked at position:", position);
+  };
+
+  console.log(positions);
   return (
     <section>
       <div
@@ -9,7 +52,13 @@ export const About = () => {
         id="about"
       >
         <div className="items-center gap-8 lg:grid lg:grid-cols-2 xl:gap-16">
-          <BerandaMaps className="rounded-lg z-0" />
+          <BerandaMaps
+            positions={positions}
+            center={defaultCenter}
+            zoomLevel={13}
+            className="rounded-lg z-0"
+            onMarkerClick={handleMarkerClick}
+          />
           <div className="text-gray-500 sm:text-lg dark:text-gray-400">
             <h2 className="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
               Kami menangani parkir liar untuk lingkungan yang lebih baik

@@ -17,7 +17,7 @@ const blueIcon = new L.Icon({
 
 const BerandaMaps = ({
   positions = [], // Positions should be an array of [latitude, longitude]
-  center = [-0.93975, 119.8974], // Default center
+  center = [], // Default center
   zoomLevel = 13, // Default zoom level
   className = "", // Optional className for additional styling
   onMarkerClick = (position) => {}, // Optional callback function for marker click

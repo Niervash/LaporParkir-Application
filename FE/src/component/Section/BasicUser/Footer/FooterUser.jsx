@@ -2,38 +2,42 @@ import React from "react";
 
 export const FooterUser = () => {
   return (
-    <footer class="bg-white dark:bg-gray-800">
-      <div class="max-w-screen-xl p-4 py-6 mx-auto lg:py-16 md:p-8 lg:p-10">
-        <img src="../../public/Logo/1.svg" class="h-8" alt="Flowbite Logo" />
+    <footer className="bg-white dark:bg-gray-800">
+      <div className="max-w-screen-xl p-4 py-6 mx-auto lg:py-16 md:p-8 lg:p-10">
+        <img
+          src="../../public/Logo/1.svg"
+          className="h-8"
+          alt="Flowbite Logo"
+        />
         <div className="text-center">
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
             Lapor <span className="text-sky-300">Parkir</span>
           </span>
         </div>
-        <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-        <div class="text-center">
+        <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+        <div className="text-center">
           <a
             href="#"
-            class="flex items-center justify-center mb-5 text-2xl font-semibold text-gray-900 dark:text-white"
+            className="flex items-center justify-center mb-5 text-2xl font-semibold text-gray-900 dark:text-white"
           ></a>
-          <span class="block text-sm text-center text-gray-500 dark:text-gray-400">
+          <span className="block text-sm text-center text-gray-500 dark:text-gray-400">
             © 2024 LaporParkir™. All Rights Reserved. Built with flowbite. All
             rights reserved
           </span>
-          <ul class="flex justify-center mt-5 space-x-5">
+          <ul className="flex justify-center mt-5 space-x-5">
             <li>
               <a
                 href="#"
-                class="text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-gray-400"
+                className="text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-gray-400"
               >
                 <svg
-                  class="w-5 h-5"
+                  className="w-5 h-5"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillrule="evenodd"
                     d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
                     clip-rule="evenodd"
                   />
@@ -43,10 +47,10 @@ export const FooterUser = () => {
             <li>
               <a
                 href="#"
-                class="text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-gray-400"
+                className="text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-gray-400"
               >
                 <svg
-                  class="w-5 h-5"
+                  className="w-5 h-5"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
@@ -62,10 +66,10 @@ export const FooterUser = () => {
             <li>
               <a
                 href="#"
-                class="text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-gray-400"
+                className="text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-gray-400"
               >
                 <svg
-                  class="w-5 h-5"
+                  className="w-5 h-5"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
@@ -77,10 +81,10 @@ export const FooterUser = () => {
             <li>
               <a
                 href="#"
-                class="text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-gray-400"
+                className="text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-gray-400"
               >
                 <svg
-                  class="w-5 h-5"
+                  className="w-5 h-5"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
@@ -96,10 +100,10 @@ export const FooterUser = () => {
             <li>
               <a
                 href="#"
-                class="text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-gray-400"
+                className="text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-gray-400"
               >
                 <svg
-                  class="w-5 h-5"
+                  className="w-5 h-5"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
