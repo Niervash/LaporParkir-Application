@@ -7,7 +7,7 @@ module.exports ={
 
     getAllLaporan: async (req, res)=>{
         const laporan = await parkir_liar.findAll({
-            attributes: ["id","jenis_kendaraan", "tanggaldanwaktu", "latitude", "longitude", "lokasi", "deskripsi_masalah","hari","bukti"],
+            attributes: ["id","jenis_kendaraan", "tanggaldanwaktu", "latitude", "longitude", "lokasi", "status", "deskripsi_masalah","hari","bukti"],
             
         })
         res.json({
@@ -29,7 +29,7 @@ module.exports ={
                     id: petugasId,
                  S// Pastikan ID pengguna sama
                 },
-                attributes: ["id", "lokasi", "tanggaldanwaktu", "latitude", "longitude", "identitas_petugas", "hari", "status", "bukti"]
+                attributes: ["id","jenis_kendaraan", "tanggaldanwaktu", "latitude", "longitude", "lokasi", "status", "deskripsi_masalah","hari","bukti"]
             });
     
             if (!petugas) {
@@ -120,6 +120,7 @@ module.exports ={
                 latitude: data.latitude,
                 longitude: data.longitude,
                 lokasi: data.lokasi,
+                status: data.status,
                 hari: data.hari,
                 bukti: data.bukti,
                 status_post: data.status_post,
