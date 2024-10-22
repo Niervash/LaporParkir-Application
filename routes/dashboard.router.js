@@ -5,6 +5,6 @@ const {
     getDashboard
 } = require('../controllers/dashboard.controller')
 
-router.use('dashboard', getDashboard)
+router.use('/dashboard', getDashboard)
 
 module.exports = router
