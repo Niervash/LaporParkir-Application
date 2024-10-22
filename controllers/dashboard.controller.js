@@ -7,12 +7,12 @@ module.exports = {
             const userCount = await User.count();
 
             const approvePetugasCount = await petugas_parkir.count({
-                where: { status_post: 'approved' } 
+                where: { status_post: 'Approve' } 
             });
 
             
             const approveParkirCount = await parkir_liar.count({
-                where: { status_post: 'approved' }
+                where: { status_post: 'Approve' }
             });
 
             
@@ -22,12 +22,12 @@ module.exports = {
             const laporanParkirCount = await parkir_liar.count();
 
             const dataPetugas = await petugas_parkir.findAll({
-                where:{status_post: 'approved'},
+                where:{status_post: 'Approve'},
                 attributes: ['latitude', 'longitude']
             })
 
             const dataParkir = await parkir_liar.findAll({
-                where: {status_post: 'approved'},
+                where: {status_post: 'Approve'},
                 attributes: ['latitude', 'longitude']
             })
 

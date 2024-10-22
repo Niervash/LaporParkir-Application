@@ -27,7 +27,7 @@ module.exports ={
             const petugas = await parkir_liar.findOne({
                 where: {
                     id: petugasId,
-                 S// Pastikan ID pengguna sama
+                 // Pastikan ID pengguna sama
                 },
                 attributes: ["id","jenis_kendaraan", "tanggaldanwaktu", "latitude", "longitude", "lokasi", "status", "deskripsi_masalah","hari","bukti"]
             });

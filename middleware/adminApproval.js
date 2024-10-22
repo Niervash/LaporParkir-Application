@@ -69,7 +69,7 @@ module.exports = {
         if (action === 'Approve') {
             dataParkir.status_post = 'Approve'
             await dataParkir.save()
-            return res.status({
+            return res.status(200).json({
                 message: "Data Parkir Telah di Setujui",
                 status_post: dataParkir.status_post
             })

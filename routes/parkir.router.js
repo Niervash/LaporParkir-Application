@@ -21,7 +21,7 @@ router.patch("/parkir/:id", upload.single('bukti'), updateLaporan )
 
 
 const {checkParkirStatus} = require('../controllers/parkirliar.controller')
-router.get("/parkir/:id",  checkParkirStatus)
+router.get("/parkir/status/:id",  checkParkirStatus)
 
 
 module.exports = router
