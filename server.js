@@ -64,7 +64,7 @@ server.use(express.urlencoded({ extended: true }))
 
 
 server.use(cors({
-  origin: ['http://localhost:5173', 'https://laporparkir-application.onrender.com'],
+  origin: ['http://localhost:5173', 'https://vbvh61dw-5173.asse.devtunnels.ms/','https://laporparkir-application.onrender.com'],
   credentials: true,
 }));
 
