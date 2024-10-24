@@ -171,13 +171,7 @@ module.exports ={
     
         try {
 
-            if (bukti) {
-                const publicId = bukti.split('/').slice(-2).join('/').split('.')[0];
-                console.log("Deleting old image with publicId:", publicId);
-                
- 
-                await cloudinary.uploader.destroy(publicId);
-            }
+            
             
             const parkirEntry = await parkir_liar.findOne({
                 where: { id } 
@@ -189,6 +183,15 @@ module.exports ={
     
             // Hapus entri parkir
             await parkirEntry.destroy();
+
+            let bukti = parkirEntry.bukti
+            if (bukti) {
+                const publicId = bukti.split('/').slice(-2).join('/').split('.')[0];
+                console.log("Deleting old image with publicId:", publicId);
+                
+ 
+                await cloudinary.uploader.destroy(publicId);
+            }
     
             // Kirim respons sukses
             return res.status(200).json({ message: 'Data Parkir berhasil dihapus' });

@@ -52,7 +52,7 @@ module.exports = {
     
             const result = await new Promise((resolve, reject) => {
                 const uploadStream = cloudinary.uploader.upload_stream({
-                    folder: 'foto profil',
+                    folder: 'foto_profil',
                     resource_type: 'auto'
                 },
                 (error, result) => {

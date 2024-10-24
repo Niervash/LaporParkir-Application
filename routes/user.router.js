@@ -18,8 +18,10 @@ router.get("/admin", getAllUser)
 router.patch("/admin/:id",  updateUser )
 router.delete("/admin/:id",  deleteUser )
 
-router.get('/userprofil', getUserByID)
-router.patch("/userprofil/:id", updateUser)
+const upload = require('../middleware/upload')
+
+router.get('/userprofil/:id', getUserByID)
+router.patch("/userprofil/:id", upload.single('foto_profil'), updateUser)
 // router.get("/token", refreshToken)
 
 

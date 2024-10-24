@@ -21,7 +21,7 @@ module.exports = {
             where: {
                 id: req.params.id
             },
-            attributes: ['id','nama', 'email', 'jenis_kelamin', 'username', ]
+            attributes: ['id','nama', 'email', 'jenis_kelamin', 'username', 'foto_profil']
         })
 
         res.status(200).json({
@@ -29,47 +29,94 @@ module.exports = {
         })
     },
 
-    updateUser: async(req, res) =>{
-        const user = await User.findOne({
-            where:{
-                id: req.params.id
-            }
-        })
-        if (!user) return res.status(404).json({
-            message: "User Not Found"
-        }) 
-        const {nama, email, jenis_kelamin, username, password, role} = req.body
-        const salt  = await bcrypt.genSalt();
-        let hashPassword
-        if (password === "" || password === null) {
-            hashPassword = user.password
-        }else{
-            hashPassword = await bcrypt.hash(password, salt)
-        }
+    updateUser: async (req, res) => {
         try {
+            const user = await User.findOne({
+                where: {
+                    id: req.params.id
+                }
+            });
+    
+            if (!user) {
+                return res.status(404).json({
+                    message: "User Tidak Ditemukan"
+                });
+            }
+    
+            const { nama, email, jenis_kelamin, username, password, role } = req.body;
+            let hashPassword;
+    
+            
+            if (password && password !== "") {
+                const salt = await bcrypt.genSalt();
+                hashPassword = await bcrypt.hash(password, salt);
+            } else {
+                hashPassword = user.password; 
+            }
+    
+            let foto_profil = user.foto_profil; 
+            if (req.file) {
+                console.log("Menerima file baru untuk diupload:", req.file);
+            
+                if (foto_profil) {
+                    const publicId = foto_profil.split('/').slice(-2).join('/').split('.')[0];
+                    console.log("Deleting old image with publicId:", publicId);
+                    
+                    try {
+                        const deleteResponse = await cloudinary.uploader.destroy(publicId);
+                        console.log("Delete response:", deleteResponse);
+                        if (deleteResponse.result !== 'ok') {
+                            console.error("Gagal menghapus gambar:", deleteResponse);
+                        }
+                    } catch (error) {
+                        console.error("Terjadi kesalahan saat menghapus gambar:", error);
+                    }
+                }
+            
+               
+                const result = await new Promise((resolve, reject) => {
+                    const uploadStream = cloudinary.uploader.upload_stream({
+                        folder: 'foto_profil',
+                        resource_type: 'auto',
+                    },
+                    (error, result) => {
+                        if (error) return reject(error);
+                        resolve(result);
+                    });
+            
+                    uploadStream.end(req.file.buffer);
+                });
+            
+                console.log("Upload successful:", result.secure_url); 
+                foto_profil = result.secure_url; 
+            }
+    
+            
             await User.update({
                 nama: nama,
                 email: email,
                 jenis_kelamin: jenis_kelamin,
                 username: username,
                 password: hashPassword,
+                foto_profil: foto_profil,
                 role: role
-                
             }, {
                 where: {
                     id: user.id
                 }
-            })
-
+            });
+    
             res.status(200).json({
-                message: "User Berhasil diUpdate"
-            })
+                message: "User Berhasil Diupdate",
+                foto_profil: foto_profil
+            });
         } catch (error) {
-            res.status(400).json({
-                message: error.message
-            })
+            console.error("Terjadi kesalahan saat mengupdate user:", error);
+            res.status(500).json({
+                message: "Gagal Mengupdate User",
+                error: error.message
+            });
         }
-
     },
 
     deleteUser: async(req, res) =>{
@@ -81,6 +128,15 @@ module.exports = {
         if (!user) return res.status(404).json({
             message: "User Not Found"
         }) 
+
+        const foto_profil = user.foto_profil
+        if (foto_profil) {
+            const publicId = foto_profil.split('/').slice(-2).join('/').split('.')[0];
+            console.log("Deleting old image with publicId:", publicId);
+            
+
+            await cloudinary.uploader.destroy(publicId);
+        }
         try {
             await User.destroy({
                 
