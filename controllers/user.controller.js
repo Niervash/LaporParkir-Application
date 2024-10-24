@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const { where } = require('sequelize')
 const {User} = models
+const cloudinary = require('cloudinary').v2
 
 module.exports = {
     getAllUser: async (get, res)=>{
@@ -25,7 +26,8 @@ module.exports = {
         })
 
         res.status(200).json({
-            message: "sukses mengambil data"
+            message: "sukses mengambil data",
+            data: user
         })
     },
 
