@@ -13,12 +13,12 @@ const {
 } = require ("../controllers/user.controller")
 
 const {verifyUser, isAdmin, isUser} = require('../middleware/auth.router')
-
+const upload = require('../middleware/upload')
 router.get("/admin", verifyUser, isAdmin, getAllUser)
 router.patch("/admin/:id", verifyUser, isAdmin, upload.single('foto_profil'), updateUser )
 router.delete("/admin/:id", verifyUser, isAdmin, deleteUser )
 
-const upload = require('../middleware/upload')
+
 
 router.get('/userprofil/:id', verifyUser, isUser, getUserByID)
 router.patch("/userprofil/:id", verifyUser, isUser, upload.single('foto_profil'), updateUser)
