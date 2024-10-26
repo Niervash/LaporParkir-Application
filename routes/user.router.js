@@ -14,14 +14,14 @@ const {
 
 const {verifyUser, isAdmin, isUser} = require('../middleware/auth.router')
 const upload = require('../middleware/upload')
-router.get("/admin", verifyUser, isAdmin, getAllUser)
-router.patch("/admin/:id", verifyUser, isAdmin, upload.single('foto_profil'), updateUser )
-router.delete("/admin/:id", verifyUser, isAdmin, deleteUser )
+router.get("/admin",  getAllUser)
+router.patch("/admin/:id",  upload.single('foto_profil'), updateUser )
+router.delete("/admin/:id",  deleteUser )
 
 
 
-router.get('/userprofil/:id', verifyUser, isUser, getUserByID)
-router.patch("/userprofil/:id", verifyUser, isUser, upload.single('foto_profil'), updateUser)
+router.get('/userprofil/:id',  getUserByID)
+router.patch("/userprofil/:id",  upload.single('foto_profil'), updateUser)
 // router.get("/token", refreshToken)
 
 
