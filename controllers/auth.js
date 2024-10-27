@@ -112,7 +112,7 @@ module.exports = {
             // Mengambil data pengguna
             const { id, nama, email, jenis_kelamin, username, role, foto_profil } = user[0];
             req.session.idPengguna = id; // Menyimpan ID pengguna
-            res.status(200).json({ id, nama, email, jenis_kelamin, username, role, foto_profil });
+            res.status(200).json({ id, idPengguna: req.session.idPengguna, nama, email, jenis_kelamin, username, role, foto_profil });
         } catch (error) {
             console.error("Error during login:", error);
             res.status(500).json({ message: "Terjadi kesalahan saat login" });
