@@ -111,7 +111,7 @@ module.exports = {
     
             // Mengambil data pengguna
             const { id, nama, email, jenis_kelamin, username, role, foto_profil } = user[0];
-            req.session.idPengguna = id; // Menyimpan ID pengguna
+            req.session.idPengguna = user[0].id; // Menyimpan ID pengguna
             res.status(200).json({ id, idPengguna: req.session.idPengguna, nama, email, jenis_kelamin, username, role, foto_profil });
         } catch (error) {
             console.error("Error during login:", error);
