@@ -66,7 +66,7 @@ module.exports = {
         console.log("Received file:", req.file);
 
         try {
-            const userId = req.session.userId
+            const userId = req.session.idPengguna
             
             if(!req.file){
                 res.status(400).json({
