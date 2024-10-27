@@ -14,14 +14,14 @@ const {
 
 const {verifyUser, isUser} = require('../middleware/auth.router')
 const upload = require('../middleware/upload')
-router.get("/parkir", getAllLaporan)
-router.get("/parkir/:id",  getParkirById)
-router.post("/parkir",   upload.single('bukti'), addLaporan);
-router.patch("/parkir/:id",  upload.single('bukti'), updateLaporan )
 
+router.get("/parkir/:id", verifyUser, isUser, getAllLaporan)
+router.get("/parkir/", verifyUser, isUser,  getParkirById)
+router.post("/parkir", verifyUser, isUser,   upload.single('bukti'), addLaporan);
+router.patch("/parkir/:id", verifyUser, isUser,  upload.single('bukti'), updateLaporan )
 
 const {checkParkirStatus} = require('../controllers/parkirliar.controller')
-router.get("/parkir/status/:id",  checkParkirStatus)
+router.get("/parkir/status/:id", verifyUser, isUser,  checkParkirStatus)
 
 
 module.exports = router

@@ -6,43 +6,49 @@ const {parkir_liar} = model
 module.exports ={
 
     getAllLaporan: async (req, res)=>{
-        const laporan = await parkir_liar.findAll({
-            attributes: ["id","jenis_kendaraan", "tanggaldanwaktu", "latitude", "longitude", "lokasi", "status", "deskripsi_masalah","hari","bukti"],
+        try {
+            const idPengguna = req.params.id
+
+            const parkir = await parkir_liar.findAll({
+                where: {idPengguna: idPengguna},
+                attributes: ["id","jenis_kendaraan", "tanggaldanwaktu", "latitude", "longitude", "lokasi", "deskripsi_masalah","hari","bukti"]
+
+            })
+            res.status(200).json({
+                message: "Sukses Mengambil Data Parkir",
+                data: parkir
+            })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({
+                message: "Gagal Mengambil Data Parkir", error: error.message,
+            })
             
-        })
-        res.json({
-            message: "Sukses Mengambil Data Laporan",
-            data: laporan
-        })
+        }
 
     },
 
     getParkirById: async (req, res) => {
         try {
-            
+            const postId = req.query.id; 
     
-            const petugasId = req.params.id; // Ambil ID petugas dari parameter URL
+            if (!postId) {
+                return res.status(400).json({ message: "ID postingan tidak disediakan." });
+            }
     
-            // Mencari petugas berdasarkan ID dan ID pengguna
-            const petugas = await parkir_liar.findOne({
-                where: {
-                    id: petugasId,
-                 // Pastikan ID pengguna sama
-                },
-                attributes: ["id","jenis_kendaraan", "tanggaldanwaktu", "latitude", "longitude", "lokasi", "status", "deskripsi_masalah","hari","bukti"]
-            });
+            const post = await parkir_liar.findOne({ where: { id: postId } }); // Ambil data postingan berdasarkan ID
     
-            if (!petugas) {
-                return res.status(404).json({ message: "Data Petugas Tidak di Temukan" });
+            if (!post) {
+                return res.status(404).json({ message: "Postingan tidak ditemukan." });
             }
     
             res.json({
-                message: "Sukses Mengambil Data Petugas",
-                data: petugas
+                message: "Sukses Mengambil Data Postingan",
+                data: post
             });
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: "Gagal mengambil data petugas", error: error.message });
+            res.status(500).json({ message: "Gagal mengambil data postingan", error: error.message });
         }
     },
 

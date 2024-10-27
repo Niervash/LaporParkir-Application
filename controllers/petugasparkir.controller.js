@@ -1,4 +1,5 @@
 const cloudinary = require('cloudinary').v2
+const { where } = require('sequelize')
 const model = require('../models')
 const user = require('../models/user')
 const {User} = model
@@ -8,43 +9,52 @@ const {petugas_parkir} = model
 module.exports = {
 
     getAllPetugas: async (req,res) =>{
-        const laporan = await petugas_parkir.findAll({
-            attributes: ["id", "lokasi", "tanggaldanwaktu", "latitude", "longitude", "identitas_petugas", "hari", "status", "bukti"]
+        try {
+            const idPengguna = req.params.id
+
+            const petugas = await petugas_parkir.findAll({
+                where: {idPengguna: idPengguna},
+                attributes: ["id", "lokasi", "tanggaldanwaktu", "latitude", "longitude", "identitas_petugas", "hari", "status", "bukti"]
+
+            })
+
+            res.json({
+                message: "Sukses Mengambil Data Petugas",
+                data: petugas
+            })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({
+                message: "Gagal Mengambil Data Petugas", error: error.message
+            })
             
-        })
-        res.json({
-            message: "Sukses Mengambil Data Laporan",
-            data: laporan
-        })
+            
+        }
 
 
     },
 
     getPetugasById: async (req, res) => {
         try {
-           
+            const postId = req.query.id; 
     
-            const petugasId = req.params.id; // Ambil ID petugas dari parameter URL
+            if (!postId) {
+                return res.status(400).json({ message: "ID postingan tidak disediakan." });
+            }
     
-            // Mencari petugas berdasarkan ID dan ID pengguna
-            const petugas = await petugas_parkir.findOne({
-                where: {
-                    id: petugasId,
-                },
-                attributes: ["id", "lokasi", "tanggaldanwaktu", "latitude", "longitude", "identitas_petugas", "hari", "status", "bukti"]
-            });
+            const post = await petugas_parkir.findOne({ where: { id: postId } }); // Ambil data postingan berdasarkan ID
     
-            if (!petugas) {
-                return res.status(404).json({ message: "Data Petugas Tidak di Temukan" });
+            if (!post) {
+                return res.status(404).json({ message: "Postingan tidak ditemukan." });
             }
     
             res.json({
-                message: "Sukses Mengambil Data Petugas",
-                data: petugas
+                message: "Sukses Mengambil Data Postingan",
+                data: post
             });
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: "Gagal mengambil data petugas", error: error.message });
+            res.status(500).json({ message: "Gagal mengambil data postingan", error: error.message });
         }
     },
 
