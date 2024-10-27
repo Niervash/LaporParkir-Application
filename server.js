@@ -8,6 +8,7 @@ const dotenv = require('dotenv');
 const cloudinary = require('cloudinary').v2;
 const morgan = require('morgan');
 const { Sequelize } = require('sequelize'); // Pastikan Sequelize diimpor
+const { none } = require('./middleware/upload');
 dotenv.config();
 
 const PORT = process.env.PORT_SERVER;
@@ -54,8 +55,10 @@ server.use(session({
   saveUninitialized: true,
   cookie: {
     maxAge: 24 * 60 * 60 * 1000, // 1 hari
-    secure: false,
-    
+    secure: true,
+    httpOnly: true,
+    sameSite: 'none'
+
   }
 }));
 
