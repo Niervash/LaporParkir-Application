@@ -55,7 +55,7 @@ server.use(session({
   cookie: {
     maxAge: 24 * 60 * 60 * 1000, // 1 hari
     secure: false,
-    sameSite: 'lax'
+    
   }
 }));
 
