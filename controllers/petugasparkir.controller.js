@@ -10,7 +10,7 @@ module.exports = {
 
     getAllPetugas: async (req,res) =>{
         try {
-            const idPengguna = req.params.id
+            const idPengguna = req.session.id
 
             const petugas = await petugas_parkir.findAll({
                 where: {idPengguna: idPengguna},
