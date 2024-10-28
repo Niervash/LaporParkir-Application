@@ -12,7 +12,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      idUser:{
+      idPengguna:{
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
