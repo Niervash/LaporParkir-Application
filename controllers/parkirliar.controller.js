@@ -7,11 +7,11 @@ module.exports ={
 
     getAllLaporan: async (req, res)=>{
         try {
-            const idPengguna = req.params.id
+            const idPengguna = req.session.idPengguna
 
             const parkir = await parkir_liar.findAll({
                 where: {idPengguna: idPengguna},
-                attributes: ["id","jenis_kendaraan", "tanggaldanwaktu", "latitude", "longitude", "lokasi", "deskripsi_masalah","hari","bukti"]
+                attributes: ["id", "idPengguna", "jenis_kendaraan", "tanggaldanwaktu", "latitude", "longitude", "lokasi", "deskripsi_masalah","hari","bukti"]
 
             })
             res.status(200).json({

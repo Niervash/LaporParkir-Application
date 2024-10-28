@@ -14,7 +14,7 @@ module.exports = {
 
             const petugas = await petugas_parkir.findAll({
                 where: {idPengguna: idPengguna},
-                attributes: ["id", "lokasi", "tanggaldanwaktu", "latitude", "longitude", "identitas_petugas", "hari", "status", "bukti"]
+                attributes: ["id", "idPengguna", "lokasi", "tanggaldanwaktu", "latitude", "longitude", "identitas_petugas", "hari", "status", "bukti"]
 
             })
 
