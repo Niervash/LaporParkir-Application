@@ -13,14 +13,14 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       parkir_liar.belongsTo(models.User,{
-        foreignKey: 'idUser',
+        foreignKey: 'idPengguna',
         as:'user'
       })
       
     }
   }
   parkir_liar.init({
-    idUser: {
+    idPengguna: {
       type: DataTypes.INTEGER,
       
     },

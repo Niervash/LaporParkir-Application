@@ -59,7 +59,7 @@ module.exports ={
         console.log("Received body:", req.body);
         console.log("Received file:", req.file);
         try {
-            const userId = req.session.userId;
+            const idPengguna = req.session.idPengguna;
     
             // Periksa apakah file gambar ada
             if (!req.file) {
@@ -93,7 +93,7 @@ module.exports ={
                 deskripsi_masalah: deskripsi_masalah,
                 hari: hari,
                 bukti: result.secure_url,
-                idUser: userId,
+                idPengguna: idPengguna,
                 status_post: 'Pending'
             });
     
