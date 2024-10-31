@@ -5,32 +5,51 @@ const {parkir_liar} = model
 
 module.exports ={
 
-    getAllLaporan: async (req, res)=>{
+    getAllLaporan :async (req, res) => {
         try {
-            const idPengguna = req.session.idPengguna
-
-            const parkir = await parkir_liar.findAll({
-                where: {idPengguna: idPengguna},
-                attributes: ["id", "idPengguna", "jenis_kendaraan", "tanggaldanwaktu", "latitude", "longitude", "lokasi", "deskripsi_masalah","hari","bukti"]
-
-            })
-            res.status(200).json({
+            const idPenggunaParam = req.params.idPengguna; 
+            const idPenggunaSession = req.session.idPengguna; 
+      
+            console.log('ID Pengguna dari Session:', idPenggunaSession); 
+            console.log('ID Pengguna dari Parameter:', idPenggunaParam); 
+        
+            if (String(idPenggunaSession) !== String(idPenggunaParam)) {
+                return res.status(401).json({ message: "Anda tidak memiliki izin untuk mengakses data ini." });
+            }
+            const petugas = await parkir_liar.findAll({
+                where: { idPengguna: idPenggunaSession }, 
+                attributes: [
+                    "id",
+                    "idPengguna",
+                    "jenis_kendaraan",
+                    "latitude",
+                    "longitude",
+                    "lokasi",
+                    "status",
+                    "deskripsi_masalah",
+                    "hari",
+                    "bukti",
+                ]
+            });
+    
+    
+            if (petugas.length === 0) {
+                return res.status(404).json({ message: "Tidak ada data laporan ditemukan" });
+            }
+    
+            res.json({
                 message: "Sukses Mengambil Data Parkir",
-                data: parkir
-            })
+                data: petugas
+            });
         } catch (error) {
-            console.log(error);
-            res.status(500).json({
-                message: "Gagal Mengambil Data Parkir", error: error.message,
-            })
-            
+            console.error(error);
+            res.status(500).json({ message: "Gagal mengambil data Parkir", error: error.message });
         }
-
     },
 
     getParkirById: async (req, res) => {
         try {
-            const postId = req.query.id; 
+            const postId = req.params.id; 
     
             if (!postId) {
                 return res.status(400).json({ message: "ID postingan tidak disediakan." });

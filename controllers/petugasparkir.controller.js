@@ -8,35 +8,53 @@ const {petugas_parkir} = model
 
 module.exports = {
 
-    getAllPetugas: async (req,res) =>{
+    getAllPetugas :async (req, res) => {
+
         try {
-            const idPengguna = req.session.idPengguna
-
+            const idPenggunaParam = req.params.idPengguna; 
+            const idPenggunaSession = req.session.idPengguna; 
+      
+            console.log('ID Pengguna dari Session:', idPenggunaSession); 
+            console.log('ID Pengguna dari Parameter:', idPenggunaParam); 
+        
+            if (String(idPenggunaSession) !== String(idPenggunaParam)) {
+                return res.status(401).json({ message: "Anda tidak memiliki izin untuk mengakses data ini." });
+            }
+    
             const petugas = await petugas_parkir.findAll({
-                where: {idPengguna: idPengguna},
-                attributes: ["id", "idPengguna", "lokasi", "tanggaldanwaktu", "latitude", "longitude", "identitas_petugas", "hari", "status", "bukti"]
-
-            })
-
+                where: { idPengguna: idPenggunaSession }, 
+                attributes: [
+                    "id",
+                    "idPengguna",
+                    "lokasi",
+                    "tanggaldanwaktu",
+                    "latitude",
+                    "longitude",
+                    "identitas_petugas",
+                    "hari",
+                    "status",
+                    "bukti"
+                ]
+            });
+    
+    
+            if (petugas.length === 0) {
+                return res.status(404).json({ message: "Tidak ada data petugas ditemukan" });
+            }
+    
             res.json({
                 message: "Sukses Mengambil Data Petugas",
                 data: petugas
-            })
+            });
         } catch (error) {
-            console.log(error);
-            res.status(500).json({
-                message: "Gagal Mengambil Data Petugas", error: error.message
-            })
-            
-            
+            console.error(error);
+            res.status(500).json({ message: "Gagal mengambil data petugas", error: error.message });
         }
-
-
     },
 
     getPetugasById: async (req, res) => {
         try {
-            const postId = req.query.id; 
+            const postId = req.params.id; 
     
             if (!postId) {
                 return res.status(400).json({ message: "ID postingan tidak disediakan." });
