@@ -55,7 +55,7 @@ server.use(session({
   saveUninitialized: true,
   cookie: {
     maxAge: 24 * 60 * 60 * 1000, // 1 hari
-    secure: false,
+    secure: true,
     sameSite: 'none'
 
   }
